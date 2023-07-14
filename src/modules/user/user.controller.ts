@@ -121,6 +121,7 @@ export const save = async (req, res) => {
 // Delete API starts //
 export const deleteUser = async (req, res) => {
     try {
+      const payload: any = decodeJWT(req.headers.authorization);
       let ID = req.query.ID ? req.query.ID : null;
       if(!ID) {
         throw new Error ("Please Provide the UserID")
@@ -130,6 +131,13 @@ export const deleteUser = async (req, res) => {
             ID:ID
         }
       })
+      console.log(payload.Role);
+      if (payload.Role == "Basic") {
+        throw new Error("Basic user has no permssion to delete other users");
+      }
+      if (payload.Role == "Admin" && (user.dataValues.Role == "SuperAdmin" || user.dataValues.Role == "Admin")) {
+        throw new Error("Admin user has no permission to delete other Admin users or Super Admin");
+      }      
       if(!user) {
         throw new Error("User Not Found")
       } else {
@@ -140,7 +148,7 @@ export const deleteUser = async (req, res) => {
         })
       }
       return res.status(200).json({
-        message: "Users Successfully",
+        message: "User Deleted Successfully",
         success: true,
       });
     } catch (error) {
