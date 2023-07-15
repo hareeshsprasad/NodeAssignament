@@ -3,8 +3,8 @@
     "database": {
       "mysql": {
         "host": "localhost",
-        "username": "root",
-        "password": "root@123",
+        "username": "user",
+        "password": "123",
         "dbName": "assignment"
       }
     }

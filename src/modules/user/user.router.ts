@@ -5,7 +5,7 @@ import { isAuthenticated } from './../../middleware';
 import { save,login,deleteUser} from './user.controller'
 
 // Routes
-router.post('/save',isAuthenticated,save)
+router.post('/save',save)
 router.post('/login',  login)
 router.delete('/deleteUser', isAuthenticated, deleteUser)
 export default router;

@@ -100,9 +100,6 @@ export const save = async (req, res) => {
         success: true,
       });
     } else {
-      if (req.body.ID && req.body.Email != user.dataValues.Email) {
-        // req.body.FCMToken = "";
-      }
       await User.upsert(req.body);
       return res.status(200).json({
         message: "User Saved Successfully",
@@ -131,7 +128,6 @@ export const deleteUser = async (req, res) => {
             ID:ID
         }
       })
-      console.log(payload.Role);
       if (payload.Role == "Basic") {
         throw new Error("Basic user has no permssion to delete other users");
       }
