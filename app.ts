@@ -7,6 +7,7 @@ import { Sequelize, DataTypes } from "sequelize";
 import apiRouter from "./src/router";
 import { indexFunction } from "./src/modules/index";
 import { User } from "./src/modules/user/user.model";
+const { logger, logAPICalls } = require('./src/logger');
 const app = express();
 const Config = require("config");
 const port = Config.get("port");
@@ -14,10 +15,10 @@ const port = Config.get("port");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(fileUpload());
+app.use(logAPICalls);
 app.use(cors());
 app.use("/", apiRouter);
 app.use("/", indexFunction);
-
 /* for log api request start */
 import morganBody from "morgan-body";
 morganBody(app);
