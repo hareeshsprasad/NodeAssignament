@@ -15,6 +15,7 @@ change the mysql username and password in config/default.json
       }
     }
 }
+Import the database, use the sql file in DB folder
 type npm run serve to start the server 
 when starting the server a super admin user wll automattically create with the following Email and Password
 {
@@ -22,5 +23,5 @@ when starting the server a super admin user wll automattically create with the f
     "Password": "superadmin@123"
 }
 Once the superadmin logged in a token will generate use that token as Bearer token.
-use postman for testing the api 
+use postman for testing the api find the collection from the folder postmanCollection
 Then other process can execute
