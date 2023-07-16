@@ -22,4 +22,5 @@ when starting the server a super admin user wll automattically create with the f
     "Password": "superadmin@123"
 }
 Once the superadmin logged in a token will generate use that token as Bearer token.
+use postman for testing the api 
 Then other process can execute
