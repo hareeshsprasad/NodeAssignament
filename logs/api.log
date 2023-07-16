@@ -1,4 +1,0 @@
-{"level":"info","message":"GET /user/logList API Requested at 10:14:19 AM"}
-{"level":"error","message":"Error logging API call: Cannot read property 'replace' of undefined"}
-{"level":"error","message":"Error logging API call: Cannot read property 'replace' of undefined"}
-{"level":"info","message":"GET /user/logList API Requested at 10:15:44 AM By User SuperAdmin "}

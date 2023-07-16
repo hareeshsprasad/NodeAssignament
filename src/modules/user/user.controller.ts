@@ -2,7 +2,7 @@ import { User, decodeJWT } from "./user.model";
 import * as bcrypt from "bcrypt";
 import * as fs from "fs";
 import * as path from "path";
-const moment = require('moment');;
+const moment = require('moment');
 const Config = require("config");
 
 // login API starts //
