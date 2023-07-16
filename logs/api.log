@@ -1,7 +1,1 @@
-{"level":"info","message":"DELETE /user/deleteUser?ID=3 API Requested at 2:10:38 PM By User AdminUser "}
-{"level":"info","message":"DELETE /user/deleteUser?ID=5 API Requested at 2:10:44 PM By User AdminUser "}
-{"level":"info","message":"DELETE /feed/delete?ID=4 API Requested at 2:15:44 PM By User AdminUser "}
-{"level":"info","message":"DELETE /user/deleteUser?ID=5 API Requested at 2:16:48 PM By User Basic "}
-{"level":"info","message":"DELETE /feed/delete?ID=2 API Requested at 2:17:13 PM By User Basic "}
-{"level":"info","message":"POST /feed/feedAccess API Requested at 2:17:19 PM By User Basic "}
-{"level":"info","message":"GET /user/logList API Requested at 2:17:29 PM By User Basic "}
+{"level":"info","message":"GET /user/logList API Requested at 5:11:04 PM By User SuperAdmin "}
