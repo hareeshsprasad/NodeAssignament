@@ -1,6 +1,8 @@
 import { User, decodeJWT } from "./user.model";
 import * as bcrypt from "bcrypt";
-import { Sequelize } from "sequelize";
+import * as fs from "fs";
+import * as path from "path";
+const moment = require('moment');;
 const Config = require("config");
 
 // login API starts //
@@ -82,7 +84,9 @@ export const save = async (req, res) => {
       throw new Error("Basic user has no permssion to create other users");
     }
     if (
-      (payload.Role == "Admin" && req.body.Role == "Admin") || req.body.Role == "SuperAdmin") {
+      (payload.Role == "Admin" && req.body.Role == "Admin") ||
+      req.body.Role == "SuperAdmin"
+    ) {
       throw new Error(
         "Admin user has no permssion to create other Admin users or Super Admin"
       );
@@ -117,40 +121,83 @@ export const save = async (req, res) => {
 
 // Delete API starts //
 export const deleteUser = async (req, res) => {
-    try {
-      const payload: any = decodeJWT(req.headers.authorization);
-      let ID = req.query.ID ? req.query.ID : null;
-      if(!ID) {
-        throw new Error ("Please Provide the UserID")
-      } 
-      const user = await User.findOne({
-        where:{
-            ID:ID
-        }
-      })
-      if (payload.Role == "Basic") {
-        throw new Error("Basic user has no permssion to delete other users");
-      }
-      if (payload.Role == "Admin" && (user.dataValues.Role == "SuperAdmin" || user.dataValues.Role == "Admin")) {
-        throw new Error("Admin user has no permission to delete other Admin users or Super Admin");
-      }      
-      if(!user) {
-        throw new Error("User Not Found")
-      } else {
-        await User.destroy({
-            where:{
-                ID:ID
-            }
-        })
-      }
-      return res.status(200).json({
-        message: "User Deleted Successfully",
-        success: true,
-      });
-    } catch (error) {
-      res.status(200).json({
-        success: false,
-        message: error.message,
+  try {
+    const payload: any = decodeJWT(req.headers.authorization);
+    let ID = req.query.ID ? req.query.ID : null;
+    if (!ID) {
+      throw new Error("Please Provide the UserID");
+    }
+    const user = await User.findOne({
+      where: {
+        ID: ID,
+      },
+    });
+    if (payload.Role == "Basic") {
+      throw new Error("Basic user has no permssion to delete other users");
+    }
+    if (
+      payload.Role == "Admin" &&
+      (user.dataValues.Role == "SuperAdmin" || user.dataValues.Role == "Admin")
+    ) {
+      throw new Error(
+        "Admin user has no permission to delete other Admin users or Super Admin"
+      );
+    }
+    if (!user) {
+      throw new Error("User Not Found");
+    } else {
+      await User.destroy({
+        where: {
+          ID: ID,
+        },
       });
     }
-  };
+    return res.status(200).json({
+      message: "User Deleted Successfully",
+      success: true,
+    });
+  } catch (error) {
+    res.status(200).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Log List API Starts //
+
+export const logList = async (req, res) => {
+  try {
+    const payload:any = decodeJWT(req.headers.authorization);
+    if(payload.Role == "Admin" || payload.Role == "Basic") {
+      throw new Error('You are not authorized to access this route.');
+    }
+    const logFilePath = path.join(__dirname, '../../../logs/api.log');
+    const logData = await fs.promises.readFile(logFilePath, 'utf8');
+    const logs = logData
+      .trim()
+      .split('\n')
+      .map((logEntry) => JSON.parse(logEntry));
+
+    const currentTime = moment();
+    const fiveMinutesAgo = moment().subtract(5, 'minutes');
+
+    const filteredLogs = logs.filter((log) => {
+      const logTimestamp = moment(log.message, 'h:mm:ss A');
+      return logTimestamp.isBetween(fiveMinutesAgo, currentTime, null, '[]');
+    });
+
+    return res.status(200).json({
+      message: 'Log Listed Successfully',
+      data: filteredLogs,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Log List API Ends //
