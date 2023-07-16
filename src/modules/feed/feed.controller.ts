@@ -61,7 +61,7 @@ export const deleteFeed = async (req, res) => {
     if (payload.Role == "Basic") {
       throw new Error("You have no permssion to delete the feed");
     }
-    if(payload.Role ="Admin" && feed.DeletePermisson == 0) {
+    if(payload.Role ="Admin" && feed.DeletePermisson == "0") {
         throw new Error("You have no permssion to delete the feed");
     }
     if (!feed) {
@@ -143,7 +143,8 @@ export const feedAccess = async (req, res) => {
     let ID = req.body.ID ? req.body.ID : null;
     let UserID = req.body.UserID ? req.body.UserID : null;
     let FeedID = req.body.FeedID ? req.body.FeedID : null;
-    let AccessLevel = req.body.AccessLevel ? req.body.AccessLevel : 0;
+    let AccessLevel = req.body.AccessLevel ? req.body.AccessLevel : null;
+    let DeletePermisson = req.body.DeletePermisson ? req.body.DeletePermisson : null;
     if (payload.Role == "Admin") {
         let checkPermission:any = await UserFeedAccess.findOne({
             where:{

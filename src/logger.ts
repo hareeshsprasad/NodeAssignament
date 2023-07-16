@@ -19,7 +19,7 @@ const logAPICalls = (req, res, next) => {
       `${req.method} ${req.url} API Requested at ${timestamp} By User ${payload.Name} `
     );
   } catch (error) {
-    logger.error(`No API Request Made`);
+    // logger.error(`No API Request Made`);
   }
   next();
 };
@@ -61,4 +61,4 @@ setInterval(() => {
     .catch((error) => {
       console.error("Error deleting old logs:", error);
     });
-}, 30 * 60 * 1000); // executes in every 30 minitues and delete log files lder than 30 minitues //
+}, 5 * 60 * 1000);
